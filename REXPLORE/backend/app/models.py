@@ -23,10 +23,16 @@ class User(Base):
     full_name = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True, index=True)
     password_hash = Column(String, nullable=False)
+    affiliation = Column(String, nullable=True)
+    avatar_data = Column(Text, nullable=True)  # data URI (small, resized client-side)
     created_at = Column(DateTime, default=now)
     updated_at = Column(DateTime, default=now, onupdate=now)
 
     papers = relationship("Paper", back_populates="owner", cascade="all, delete-orphan")
+
+    @property
+    def avatar_url(self):
+        return self.avatar_data
 
 
 class Paper(Base):

@@ -35,6 +35,8 @@ class UserOut(BaseModel):
     id: int
     full_name: str
     email: str
+    affiliation: Optional[str] = None
+    avatar_url: Optional[str] = None
     created_at: dt.datetime
 
 
@@ -42,6 +44,42 @@ class TokenOut(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: UserOut
+
+
+class ProfileUpdateRequest(BaseModel):
+    full_name: str = Field(min_length=1, max_length=200)
+    affiliation: Optional[str] = Field(default=None, max_length=200)
+
+    @field_validator("full_name")
+    @classmethod
+    def strip_name(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("Full name is required.")
+        return v
+
+    @field_validator("affiliation")
+    @classmethod
+    def strip_affiliation(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        v = v.strip()
+        return v or None
+
+
+class EmailUpdateRequest(BaseModel):
+    new_email: EmailStr
+    current_password: str = Field(min_length=1, max_length=128)
+
+
+class PasswordUpdateRequest(BaseModel):
+    current_password: str = Field(min_length=1, max_length=128)
+    new_password: str = Field(min_length=8, max_length=128)
+    confirm_new_password: str = Field(min_length=8, max_length=128)
+
+
+class DeleteAccountRequest(BaseModel):
+    current_password: str = Field(min_length=1, max_length=128)
 
 
 # ---------- Papers ----------

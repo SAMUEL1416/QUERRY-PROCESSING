@@ -34,6 +34,10 @@ export function AuthProvider({ children }) {
     setUser(data.user)
   }, [])
 
+  const updateUser = useCallback((updatedUser) => {
+    setUser(updatedUser)
+  }, [])
+
   const login = useCallback(async (email, password) => {
     const res = await api.login(email, password)
     applySession(res.data)
@@ -65,6 +69,7 @@ export function AuthProvider({ children }) {
     login,
     register,
     logout,
+    updateUser,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

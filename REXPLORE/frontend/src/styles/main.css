@@ -131,7 +131,14 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   background: var(--bg-inset);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
+.sidebar-profile:hover {
+  border-color: var(--accent-primary);
+  background: linear-gradient(135deg, rgba(91,95,245,0.10), rgba(156,125,255,0.06));
+}
+.sidebar-profile:active { transform: scale(0.99); }
 .sidebar-profile-avatar {
   width: 36px;
   height: 36px;
@@ -144,7 +151,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: #fff;
   font-size: var(--fs-xs);
   font-weight: 700;
+  overflow: hidden;
 }
+.sidebar-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .sidebar-profile-info { display: flex; flex-direction: column; min-width: 0; }
 .sidebar-profile-info strong {
   font-size: var(--fs-sm);

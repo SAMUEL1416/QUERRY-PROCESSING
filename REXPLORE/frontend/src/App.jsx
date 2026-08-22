@@ -10,6 +10,7 @@ import UploadPage from './pages/UploadPage'
 import PaperPage from './pages/PaperPage'
 import ComparisonPage from './pages/ComparisonPage'
 import AnalyticsPage from './pages/AnalyticsPage'
+import ProfilePage from './pages/ProfilePage'
 import { useAuth } from './context/AuthContext'
 
 export default function App() {
@@ -60,6 +61,7 @@ export default function App() {
           <Route path="/papers/:id" element={<PaperPage onOpenSidebar={() => setSidebarOpen(true)} />} />
           <Route path="/comparison" element={<ComparisonPage onOpenSidebar={() => setSidebarOpen(true)} />} />
           <Route path="/analytics" element={<AnalyticsPage onOpenSidebar={() => setSidebarOpen(true)} />} />
+          <Route path="/profile" element={<ProfilePage onOpenSidebar={() => setSidebarOpen(true)} />} />
         </Routes>
       </main>
     </div>

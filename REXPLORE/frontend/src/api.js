@@ -50,6 +50,21 @@ export const api = {
   login: (email, password) => client.post('/auth/login', { email, password }),
   logout: () => client.post('/auth/logout'),
   me: () => client.get('/auth/me'),
+  updateProfile: (fullName, affiliation) => client.patch('/auth/me', { full_name: fullName, affiliation }),
+  updateEmail: (newEmail, currentPassword) => client.patch('/auth/me/email', { new_email: newEmail, current_password: currentPassword }),
+  updatePassword: (currentPassword, newPassword, confirmNewPassword) =>
+    client.patch('/auth/me/password', {
+      current_password: currentPassword,
+      new_password: newPassword,
+      confirm_new_password: confirmNewPassword,
+    }),
+  uploadAvatar: (file) => {
+    const form = new FormData()
+    form.append('file', file)
+    return client.post('/auth/me/avatar', form, { headers: { 'Content-Type': 'multipart/form-data' } })
+  },
+  removeAvatar: () => client.delete('/auth/me/avatar'),
+  deleteAccount: (currentPassword) => client.delete('/auth/me', { data: { current_password: currentPassword } }),
 
   // Papers
   uploadPaper: (file, onProgress) => {

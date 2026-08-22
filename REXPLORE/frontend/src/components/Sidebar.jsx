@@ -53,13 +53,15 @@ export default function Sidebar({ open, onClose, theme, onToggleTheme }) {
 
       <div className="sidebar-footer">
         {user && (
-          <div className="sidebar-profile">
-            <div className="sidebar-profile-avatar">{initials || <User size={16} />}</div>
+          <NavLink to="/profile" className="sidebar-profile" onClick={onClose}>
+            <div className="sidebar-profile-avatar">
+              {user.avatar_url ? <img src={user.avatar_url} alt="" /> : (initials || <User size={16} />)}
+            </div>
             <div className="sidebar-profile-info">
               <strong>{user.full_name}</strong>
               <span>{user.email}</span>
             </div>
-          </div>
+          </NavLink>
         )}
 
         <button className="sidebar-link" onClick={onToggleTheme} style={{ width: '100%', border: 'none', background: 'transparent' }}>
