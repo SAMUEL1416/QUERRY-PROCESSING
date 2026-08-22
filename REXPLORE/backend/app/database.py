@@ -1,0 +1,32 @@
+"""
+SQLAlchemy engine, session factory, and declarative base for rexplore.db.
+"""
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+
+from app.config import get_settings
+
+settings = get_settings()
+
+connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
+
+engine = create_engine(settings.database_url, connect_args=connect_args)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+
+def get_db():
+    """FastAPI dependency that yields a DB session and always closes it."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+def init_db():
+    """Create all tables. Called once at startup."""
+    # Import models so they register on Base.metadata before create_all.
+    from app import models  # noqa: F401
+    Base.metadata.create_all(bind=engine)
